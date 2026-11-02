@@ -9,6 +9,7 @@ public enum ErrorCode {
     // Auth
     EMAIL_ALREADY_EXISTS("AUTH_001", HttpStatus.CONFLICT, "Email already registered"),
     USERNAME_ALREADY_EXISTS("AUTH_002", HttpStatus.CONFLICT, "Username already taken"),
+    USER_NOT_FOUND("AUTH_05",HttpStatus.NOT_FOUND,"User not found"),
     INVALID_CREDENTIALS("AUTH_003", HttpStatus.UNAUTHORIZED, "Invalid email or password"),
     UNAUTHENTICATED("AUTH_004", HttpStatus.UNAUTHORIZED, "Please log in first"),
 

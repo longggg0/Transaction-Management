@@ -1,15 +1,28 @@
 package com.example.transaction_management.service;
 
 import com.example.transaction_management.dto.request.ResendOtpRequest;
+import com.example.transaction_management.dto.request.ResetPasswordRequest;
 import com.example.transaction_management.dto.request.VerifyOtpRequest;
-import com.example.transaction_management.dto.response.MessageResponse;
+import com.example.transaction_management.entity.PendingRegistrationEntity;
 import com.example.transaction_management.entity.UserEntity;
 
 public interface OtpService {
 
-    void sendRegisterOtp(UserEntity user);
+    void sendRegisterOtp(PendingRegistrationEntity pending);
 
-    MessageResponse verifyRegisterOtp(VerifyOtpRequest request);
+    String verifyRegisterOtp(VerifyOtpRequest request);
 
-    MessageResponse resendRegisterOtp(ResendOtpRequest request);
+    String resendRegisterOtp(ResendOtpRequest request);
+
+    void sendLoginOtp(UserEntity user);
+
+    UserEntity verifyLoginOtp(VerifyOtpRequest request);
+
+//    void resendLoginOtp();
+
+    void sendForgotPasswordOtp(UserEntity user);
+
+    UserEntity verifyOtpForgotPassword(ResetPasswordRequest request );
+
+//    void resendForgotPasswordOtp();
 }

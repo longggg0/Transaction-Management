@@ -1,9 +1,15 @@
 spring:
+  config:
+    import: optional:file:.env[.properties]
+
+  application:
+    name: transaction-management
+
   mail:
-    host: smtp-relay.brevo.com
-    port: 587
-    username: b7ac73001@smtp-brevo.com
-    password: ${brevo.api-key}
+    host: ${BREVO_SMTP_HOST}
+    port: ${BREVO_SMTP_PORT}
+    username: ${BREVO_SMTP_USERNAME}
+    password: ${BREVO_SMTP_KEY}
     properties:
       mail:
         smtp:
@@ -15,22 +21,15 @@ spring:
           timeout: 5000
           writetimeout: 5000
 
-  app:
-    mail:
-      from: ${app.mail.from}       # your verified sender, e.g. noreply@yourdomain.com
-      from-name: ${app.mail.from-name}
-  application:
-    name: transaction-management
-
   datasource:
-    url: jdbc:postgresql://localhost:5432/transaction-management
-    username: postgres
-    password: Loriyagami1234
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
     driver-class-name: org.postgresql.Driver
 
   jpa:
     hibernate:
-      ddl-auto: validate        # Flyway creates tables, Hibernate only checks them
+      ddl-auto: validate
     open-in-view: false
     show-sql: false
     properties:
@@ -41,6 +40,11 @@ spring:
     enabled: true
     locations: classpath:db/migration
 
+app:
+  mail:
+    from: ${APP_MAIL_FROM}
+    from-name: ${APP_MAIL_FROM_NAME}
+
 server:
   port: 8080
 
@@ -49,5 +53,5 @@ logging:
     name: logs/app.log
   level:
     root: INFO
-    com.example.transactionmanagement: DEBUG
+    com.example.transaction_management: DEBUG
     org.hibernate.SQL: DEBUG

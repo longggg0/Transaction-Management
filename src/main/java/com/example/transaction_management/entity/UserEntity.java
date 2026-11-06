@@ -5,15 +5,15 @@ import com.example.transaction_management.common.id.PrefixedId;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.DynamicUpdate;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Entity
 @Getter
 @Setter
 @Table(name = "users")
+@DynamicUpdate
 public class UserEntity {
 
     @Id

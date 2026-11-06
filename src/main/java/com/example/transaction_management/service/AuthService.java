@@ -1,6 +1,7 @@
 package com.example.transaction_management.service;
 
 import com.example.transaction_management.dto.request.*;
+import com.example.transaction_management.dto.response.MessageResponse;
 import com.example.transaction_management.dto.response.RegisterResponse;
 import com.example.transaction_management.dto.response.UserResponse;
 import jakarta.servlet.http.HttpServletRequest;
@@ -10,7 +11,7 @@ public interface AuthService {
 
     RegisterResponse registerAccount(RegisterRequest request);
 
-    String login(LoginRequest request);
+    MessageResponse login(LoginRequest request);
 
     UserResponse verifyLogin(VerifyOtpRequest request,
                              HttpServletRequest httpRequest,
@@ -18,8 +19,13 @@ public interface AuthService {
 
     UserResponse getCurrentUser();
 
-    String forgotPassword(ForgetPasswordRequest request);
+    MessageResponse forgotPassword(ForgetPasswordRequest request);
 
-    String resetPassword(ResetPasswordRequest request);
+    MessageResponse resetPassword(ResetPasswordRequest request);
+
+    MessageResponse resendLoginOtp(LoginRequest request);
+
+
+    MessageResponse resendForgotPasswordOtp(ForgetPasswordRequest request);
 
 }

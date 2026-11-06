@@ -18,8 +18,6 @@ public interface OtpService {
 
     UserEntity verifyLoginOtp(VerifyOtpRequest request);
 
-//    void resendLoginOtp();
-
     void sendForgotPasswordOtp(UserEntity user);
 
     UserEntity verifyOtpForgotPassword(ResetPasswordRequest request );

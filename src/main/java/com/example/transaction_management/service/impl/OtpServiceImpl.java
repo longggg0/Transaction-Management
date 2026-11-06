@@ -104,13 +104,21 @@ public class OtpServiceImpl implements OtpService {
     @Override
     @Transactional
     public String resendRegisterOtp(ResendOtpRequest request) {
-        // same answer whether or not a registration exists, so nobody can probe emails
-        String response = ("If a registration is pending, a new code was sent.");
 
-        pendingRepository.findByEmail(request.getEmail().trim().toLowerCase())
-                .ifPresent(this::sendRegisterOtp);
+        String email = request.getEmail().trim().toLowerCase();
 
-        return ("OTP resend successfully");
+        pendingRepository.findByEmail(email)
+                .ifPresent(pending -> {
+                    try {
+                        sendRegisterOtp(pending);
+                    } catch (BusinessException ex) {
+                        if (ex.getErrorCode() != ErrorCode.OTP_RESEND_TOO_SOON) {
+                            throw ex;
+                        }
+                    }
+                });
+
+        return "If a registration is pending, a new code was sent.";
     }
 
     @Override
@@ -167,7 +175,7 @@ public class OtpServiceImpl implements OtpService {
     }
 
     @Override
-    @Transactional
+    @Transactional(noRollbackFor = BusinessException.class)
     public UserEntity verifyOtpForgotPassword(ResetPasswordRequest request) {
 
         UserEntity user = userRepository
@@ -221,11 +229,6 @@ public class OtpServiceImpl implements OtpService {
         return user;
     }
 
-//    @Override
-//    public void resendForgotPasswordOtp() {
-//
-//    }
-
     @Override
     @Transactional
     public void sendLoginOtp(UserEntity user) {
@@ -275,11 +278,6 @@ public class OtpServiceImpl implements OtpService {
         otp.setUsed(true);
         return user;
     }
-
-//    @Override
-//    public void resendLoginOtp() {
-//
-//    }
 
     private void checkLoginCooldown(UserEntity user) {
         otpCodeRepository

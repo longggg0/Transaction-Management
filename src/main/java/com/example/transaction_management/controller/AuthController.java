@@ -2,6 +2,7 @@ package com.example.transaction_management.controller;
 
 import com.example.transaction_management.common.response.ApiResponse;
 import com.example.transaction_management.dto.request.*;
+import com.example.transaction_management.dto.response.MessageResponse;
 import com.example.transaction_management.dto.response.RegisterResponse;
 import com.example.transaction_management.dto.response.UserResponse;
 import com.example.transaction_management.service.AuthService;
@@ -41,9 +42,9 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ApiResponse<Void> login(@Valid @RequestBody LoginRequest request) {
-        String message = authService.login(request);
-        return ApiResponse.success(message, null);
+    public ApiResponse<MessageResponse> login(@Valid @RequestBody LoginRequest request) {
+        MessageResponse response = authService.login(request);
+        return ApiResponse.success("Get your OTP and verify your login account",response);
     }
 
     @PostMapping("/login/verify")
@@ -55,21 +56,40 @@ public class AuthController {
     }
 
     @PostMapping("/forgot-password")
-    public ApiResponse<Void> forgotPassword(
+    public ApiResponse<MessageResponse> forgotPassword(
             @Valid @RequestBody ForgetPasswordRequest request) {
 
-        String message = authService.forgotPassword(request);
+        MessageResponse response = authService.forgotPassword(request);
 
-        return ApiResponse.success(message, null);
+        return ApiResponse.success("Get OTP for verify your reset password  ",response);
     }
 
     @PostMapping("/reset-password")
-    public ApiResponse<Void> resetPassword(
+    public ApiResponse<MessageResponse> resetPassword(
             @Valid @RequestBody ResetPasswordRequest request) {
 
-        String message = authService.resetPassword(request);
+        MessageResponse response = authService.resetPassword(request);
 
-        return ApiResponse.success(message, null);
+        return ApiResponse.success("Reset password successfully",response);
+    }
+
+
+    @PostMapping("/login/resend-otp")
+    public ApiResponse<MessageResponse> resendLoginOtp(
+            @Valid @RequestBody LoginRequest request) {
+
+        MessageResponse response = authService.resendLoginOtp(request);
+
+        return ApiResponse.success("Resend OTP for login successfully",response);
+    }
+
+    @PostMapping("/forgot-password/resend-otp")
+    public ApiResponse<MessageResponse> resendForgotPasswordOtp(@Valid @RequestBody ForgetPasswordRequest request){
+
+        MessageResponse response = authService.resendForgotPasswordOtp(request);
+
+        return ApiResponse.success("Resend OTP for forgot password successfully",response);
+
     }
 
     @GetMapping("/me")
